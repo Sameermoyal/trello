@@ -7,11 +7,11 @@ const listModel=require('../model/listModel')
 
 exports.userSignUP=async(req,res)=>{
     try{
-      const{id,password}=req.body;
+      const{email,password}=req.body;
      const salt=bcrypt.genSaltSync(10)
      const hashPassword=await bcrypt.hashSync(password,salt)
   
-    const user=  await new userModel({id,password:hashPassword}).save()
+    const user=  await new userModel({email,password:hashPassword}).save()
   
     res.status(200).json({message:"successfully signup",user})
   
@@ -22,8 +22,8 @@ exports.userSignUP=async(req,res)=>{
 
 exports.userLogin=async(req,res)=>{
     try{
-      const{id,password}=req.body;
-      const user =await userModel.findOne({id})
+      const{email,password}=req.body;
+      const user =await userModel.findOne({email})
       if(!user){
           res.status(400).json({message:"user not register"})
       }
@@ -63,6 +63,29 @@ exports.userLogin=async(req,res)=>{
         res.status(500).json({message:"error to getAll",error:error.message})
     }
 }
+  exports.getOneDetails=async(req,res)=>{
+    try{
+     const userId= req.user.id
+    const user=await userModel.findOne({_id:userId})
+    const userTask=await taskModel.find({userId:user._id})
+    const taskIds=userTask.map(i=>i._id)
+  
+    const listPopulate = await listModel
+    .find({ taskId: { $in: taskIds } }) 
+    .populate({
+      path: "taskId",
+      populate: {
+        path: "userId",
+        model: "user",
+      },
+    });
+    
+   res.status(200).json({message:" getOne route",listPopulate,email:user.email})
+    }catch(error){
+        res.status(500).json({message:"error to getAll",error:error.message})
+    }
+}
+
 
 
 exports.create=async(req,res)=>{
@@ -74,6 +97,7 @@ exports.create=async(req,res)=>{
       const userId=user._id
       console.log(">>>>>>>user in create ",userId)
       const{title,descriptionList}=req.body
+      console.log("title",title,"descriptionList",descriptionList)
       if (!title || !Array.isArray(descriptionList)) {
           return res.status(400).json({ message: "Invalid request data" });
       }
@@ -89,16 +113,12 @@ exports.create=async(req,res)=>{
 exports.dragAndDrop=async(req,res)=>{
   try{
       const id=req.user.id
-     const{dropIds,dragIds}= req.body
-     console.log("dropIds : ",dropIds," dragIds : ",dragIds)
-   
+     const{dropIds,dragIds}= req.body 
      const existingDropList=await listModel.findOne({_id:dropIds.dropListId})
       if(!existingDropList){
          return res.status(400).json({message:"not present existing task"})
       }
-     
       const existingDragList=await listModel.findOne({_id:dragIds.listId})
-      console.log("existingDragList>>>>>>",existingDragList)
       const arrIndex=dragIds.descItem; 
      const preData=existingDropList.descriptionList
       const updateDropData=[...preData,existingDragList.descriptionList[arrIndex]] 
@@ -106,7 +126,7 @@ exports.dragAndDrop=async(req,res)=>{
         //   { dropListId,dropTaskId} =dropIds ;
       //   { descItem,listId, taskId}=dragIds ;
       const preDragData=existingDragList.descriptionList
-      console.log("preDragData : ",preDragData)
+     
       const updatedDragData=[]
       for(let i=0;i<preDragData.length;i++){
           if(i != arrIndex){
@@ -115,12 +135,25 @@ exports.dragAndDrop=async(req,res)=>{
       }
       console.log("updatedDragData",updatedDragData)
       const updateDragList=await listModel.findByIdAndUpdate(existingDragList._id,{descriptionList:updatedDragData})
-      const listPopulate =await listModel.find().populate({ path:'taskId',
-          populate:{
-              path:'userId',
-              model:'user'
-          }
-      })
+      // const listPopulate =await listModel.find().populate({ path:'taskId',
+      //     populate:{
+      //         path:'userId',
+      //         model:'user'
+      //     }
+      // })
+      const userId= req.user.id
+      const user=await userModel.findOne({_id:userId})
+      const userTask=await taskModel.find({userId:user._id})
+      const taskIds=userTask.map(i=>i._id)
+      const listPopulate = await listModel
+      .find({ taskId: { $in: taskIds } }) 
+      .populate({
+        path: "taskId",
+        populate: {
+          path: "userId",
+          model: "user",
+        },
+      });
       console.log("success>>>>>")
       res.status(200).json({message:" update successfully ",listPopulate})
     }catch(error){
@@ -144,4 +177,41 @@ exports.deleteTask=async(req,res)=>{
     }catch(error){
         res.status(500).json({message:"error to create",error:error.message})
     }
+}
+
+exports.updateColorList=async(req,res)=>{
+  try{
+    const id=req.user.id
+    const{color,task}=req.body
+    console.log("Color >>>>: ",color,"task",task)
+    getList=await listModel.find({taskId:task}),
+    
+    console.log("getList",getList)
+    const _id=getList[0]._id;
+  
+    const updatedList = await listModel.findByIdAndUpdate( _id,{ listColor: color }, { new: true });
+  console.log(">>>>>>>>>>>updatedList",updatedList)
+ console.log(">>>>>>>>next")
+ res.status(200).json({message:" color update successfully ",updatedList})
+  }catch(error){
+      res.status(500).json({message:"error to update color",error:error.message})
+  }
+}
+exports.updateColorTask=async(req,res)=>{
+  try{
+    const id=req.user.id
+    const{color,task}=req.body
+    console.log("Color >>>>: ",color,"task",task)
+    getList=await taskModel.find({_id:task}),
+    
+    console.log("getList",getList)
+    const _id=getList[0]._id;
+  
+    const updatedTask = await taskModel.findByIdAndUpdate( _id,{ taskColor: color }, { new: true });
+  console.log(">>>>>>>>>>>updatedList",updatedTask)
+ console.log(">>>>>>>>next")
+ res.status(200).json({message:" color update successfully ",updatedTask})
+  }catch(error){
+      res.status(500).json({message:"error to update color",error:error.message})
+  }
 }

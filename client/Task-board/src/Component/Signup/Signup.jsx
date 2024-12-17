@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link ,useNavigate} from 'react-router-dom';
 
 function Signup({userLogin}) {
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -15,14 +15,15 @@ function Signup({userLogin}) {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!id || !password) {
-      setError("Both ID and Password are required.");
+    if (!email || !password) {
+      setError("Both email and Password are required.");
       return;
     }
     setError("");
-  
+   
     try {
-      const userStatus = await axios.post(`${api}/signup`, { id, password })
+      console.log("email>>>>",email)
+      const userStatus = await axios.post(`${api}/signup`, { email, password })
       userLogin(true); 
       navigate('/');
     } catch (error) {
@@ -39,8 +40,8 @@ function Signup({userLogin}) {
         <h2>Register</h2>
         {error && <p className="error-message">{error}</p>}
         <div className="form-group">
-          <label htmlFor="id">ID:</label>
-          <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)}  placeholder="Enter your ID" />
+          <label htmlFor="email">email:</label>
+          <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)}  placeholder="Enter your Email" />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password:</label>

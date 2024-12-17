@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
 const userSchema =mongoose.Schema({
-    id:{
+ email:{
         type:String,
         required:true,
         unique:true
@@ -9,6 +9,10 @@ const userSchema =mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    userColor:{
+        type:String,
+        required:false,
     },
  })
 

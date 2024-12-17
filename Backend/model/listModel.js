@@ -11,7 +11,11 @@ const listSchema =mongoose.Schema({
         type:Array,
         default:[]
     },
-
+    listColor:{
+        type:String,
+        required:false,
+    },
+   
  })
 
  module.exports=mongoose.model('list',listSchema)

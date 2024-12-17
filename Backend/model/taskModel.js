@@ -9,7 +9,11 @@ const taskSchema=mongoose.Schema({
     title:{
         type:String,
         default:""
-    }
+    },
+    taskColor:{
+        type:String,
+        required:false,
+    },
  })
 
  module.exports=mongoose.model('task',taskSchema)

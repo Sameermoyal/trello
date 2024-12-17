@@ -1,71 +1,96 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 .home-page {
-    padding: 80px; 
-    display: flex;
-    flex-wrap: nowrap; 
-    align-items: flex-start; 
-    border: 2px solid black;
-    width: 100%;
-    overflow-x: auto; 
-    gap: 20px;
+  padding: 80px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  border: 2px solid black;
+  width: 100%;
+  overflow-x: auto; 
+  gap: 20px;
 }
 
 .list {
-
-    border: 2px solid black;
-    height: 300px;
-    flex: 0 0 300px;
-    overflow-y: auto; 
-    padding: 10px;
-    background-color: #f9f9f9; 
+  border: 2px solid black;
+  height: 300px;
+  flex: 0 0 300px;
+  overflow-y: auto; 
+  padding: 10px;
+ 
+  position: relative; /* Makes .three-dots dropdown position correctly */
 }
 
 .list-title {
-    background-color: rgba(255, 228, 196, 0.447);
-    height: 50px;
-    line-height: 50px;
-    font-weight: bold;
-    margin-bottom: 10px; 
-    display: flex;
-    justify-content: space-between;
+  
+  height: 50px;
+  width: 100%;
+  line-height: 50px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items properly */
+  position: relative; /* Enables relative dropdown placement */
 }
-.list-title h1{
- padding-left: 30px;
- background-color: rgba(255, 228, 196, 0.447);
+
+.list-title h1 {
+  padding-left: 30px;
 }
 
 .list-description {
-    display: flex;
-    flex-direction: column; 
-    gap: 5px;
+  display: flex;
+  flex-direction: column; 
+  gap: 5px;
 }
 
 .list-detail {
-    margin: 0; 
-    padding: 2px 5px;
-    font-size: 20px; 
-    background-color: #ffffff;
-    border-radius: 5px;
-    border: 1px solid #ddd; 
+  margin: 0;
+  padding: 2px 5px;
+  font-size: 20px; 
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 .list button {
-
-    width: 50px; 
-    height: 50px; 
-    font-size: 24px; 
-    font-weight: bold; 
-    background-color: #4CAF50; 
-    color: white; 
-    border: none; 
-    border-radius: 50%; 
-   
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
 }
 
+.three-dots {
+  cursor: pointer;
+}
 
+.dropdown-card {
+  position:fixed ; 
+  top:  50px;
+  left: 35px; 
 
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 200px;
+  z-index: 10;
+  border-radius: 5px;
+  display: none;
+}
+
+.dropdown-card.visible {
+  display: block;
+}
+
+.dropdown-card p {
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-card p:hover {
+  background-color: #f0f0f0;
+}

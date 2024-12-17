@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 function Login({userLogin}) {
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
  
@@ -14,14 +14,14 @@ function Login({userLogin}) {
   const api='http://localhost:3000'
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!id || !password) {
+    if (!email || !password) {
       setError("Both ID and Password are required.");
       return;
     }
     setError("");
   
     try {
-      const userStatus = await axios.post(`${api}/login`, { id, password });
+      const userStatus = await axios.post(`${api}/login`, { email, password });
       console.log('userStatus>>>>>>',userStatus.data.token)
       const token=userStatus.data.token;
       localStorage.setItem('token',token) 
@@ -41,8 +41,8 @@ function Login({userLogin}) {
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
         <div className="form-group">
-          <label htmlFor="id">ID:</label>
-          <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)}  placeholder="Enter your ID" />
+          <label htmlFor="email">Email:</label>
+          <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)}  placeholder="Enter your ID" />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password:</label>
