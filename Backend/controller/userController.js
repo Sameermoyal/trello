@@ -25,17 +25,17 @@ exports.userLogin=async(req,res)=>{
       const{email,password}=req.body;
       const user =await userModel.findOne({email})
       if(!user){
-          res.status(400).json({message:"user not register"})
+        return  res.status(400).json({message:"user not register"})
       }
       console.log('>user>>>>',user)
       const dbPassword=user.password
      const match=await bcrypt.compare(password,dbPassword)
        
     if(!match){
-      res.status(400).json({message:"password invalid"})
+    return  res.status(400).json({message:"password invalid"})
    }
     const token =jwt.sign({id:user._id},secret_key,{expiresIn:'1h'})
-     res.status(200).json({message:"successfully signup",token})
+    return res.status(200).json({message:"successfully signup",token})
   
     }catch(error){
       res.status(500).json({message:"internal server error",error:error.message})
@@ -213,5 +213,39 @@ exports.updateColorTask=async(req,res)=>{
  res.status(200).json({message:" color update successfully ",updatedTask})
   }catch(error){
       res.status(500).json({message:"error to update color",error:error.message})
+  }
+}
+
+
+exports.resetOldPassword=async(req,res)=>{
+  try{
+   const{oldPassword,newPassword,userEmail}=req.body
+  
+  console.log("oldPassword : ",oldPassword," newPassword : ",newPassword,"userEmail ",userEmail )
+  if(!oldPassword  || !newPassword){
+   return res.status(401).json({message:"both fields required"})
+  }
+ 
+  const user=await userModel.findOne({email:userEmail})
+  if (!user) {
+   return res.status(404).json({ message: "User not found" }); 
+  }
+  const dbPassword=user.password
+  
+  const match=await bcrypt.compare(oldPassword,dbPassword)
+  
+    if(!match){
+      return res.status(400).json({message:"old password miss match, try again " })
+    }
+    const salt=await bcrypt.genSaltSync(10);
+    const hashPassword=await bcrypt.hashSync(newPassword,salt)
+     const _id=user._id
+     console.log("reset seccessfully")
+     console.log('id ',_id)
+    const updatePass=await userModel.findByIdAndUpdate(_id,{password:hashPassword})
+   
+    return res.status(200).json({message:"reset password successfully"})
+  }catch(error){
+    return res.status(500).json({message:"error detect to resetPassword :" ,error:error.message})
   }
 }

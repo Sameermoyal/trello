@@ -11,6 +11,7 @@ router.post('/create',auth,userController.create)
 router.patch('/dndAdd',auth,userController.dragAndDrop)
 router.patch('/updateColorList',auth,userController.updateColorList)
 router.patch('/updateColorTask',auth,userController.updateColorTask)
+router.patch('/resetPassword',auth,userController.resetOldPassword)
 router.delete('/deleteTask/:taskId',auth,userController.deleteTask)
 module.exports =router;
 
