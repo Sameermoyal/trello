@@ -9,7 +9,6 @@ function Header({ userLogin }) {
   const { userEmail } = useContext(UserContext);
   const [showCard, setShowCard] = useState(false); 
   
-
   const navigate = useNavigate();
 
   const userStatus = () => {
@@ -17,7 +16,8 @@ function Header({ userLogin }) {
   };
  
   const toggleCard = () => {
-    setShowCard(!showCard);
+    
+  setShowCard(!showCard);
   };
 
   const handleResetPassword=()=>{

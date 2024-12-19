@@ -1,0 +1,124 @@
+.board{
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    border: 2px solid transparent;
+    display: flex;
+    background-color: #CD5A91;   
+}
+
+.board-container{
+    position: relative;
+    height: 100%;
+    display: flex;
+    padding: 50px;
+    overflow-x: scroll;
+    
+}
+.board-card{
+    position: relative;
+    border: 2px solid transparent;
+    display: flex;
+    height: 400px;
+    min-width: 300px;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 20px;
+    
+}
+
+.list-title{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+.list-title h1{
+    padding-top: 7px;
+    padding-left: 20px;
+    
+}
+ .three-dots{
+   position: absolute;
+   right: 20px;
+   top:20px
+}
+.list-description{
+width: 95%;
+}
+
+.create-card{
+    display: flex;
+    height: 250px;
+    min-width: 300px;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    border: 2px solid;
+    display: flex;
+    height: 220px;
+    min-width: 300px;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: white;
+    
+}
+.create-button button {
+    cursor: pointer;
+    background-color : green ;
+}
+
+.isVisible-Card{
+    position: absolute;
+    z-index: 10;
+    top: 57px;
+    left: 250px;
+    height: 300px;
+    min-width: 250px;
+    border-radius: 10px;
+    background-color:#FFFFFF ;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+
+#desc-setColor {
+    display: flex;
+}
+
+#desc-setColor button{
+    height: 22px;
+    width: 40px;
+    margin-left: 30px ;
+    text-align: center;
+    padding: 2px;
+}
+#list-setColor {
+    display: flex;
+}
+
+#list-setColor button{ height: 22px;
+    width: 40px;
+    margin-left: 30px ;
+    text-align: center;
+    padding: 2px;
+}
+
+.delete-button{
+    background-color:rgba(210, 1, 186, 0.84) ;
+}
+.delete-button:hover{
+    background-color: rgb(210, 17, 17);
+}

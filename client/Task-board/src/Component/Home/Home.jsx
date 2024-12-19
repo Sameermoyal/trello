@@ -18,8 +18,6 @@ function Home() {
     setVisibleDropdown((prev) => (prev === taskId ? null : taskId));
   };
 
-  
-
   const api = 'http://localhost:3000';
 
   const handleButtonClick = async(task,color) => {
@@ -135,7 +133,7 @@ function Home() {
         const isDropdownVisible = visibleDropdown === listItem.taskId?._id;
 
         return (
-          <div
+          <div style={{backgroundColor:listItem.taskId.taskColor || 'white' }}
             key={listItem._id}
             className="list"
             onDragOver={handleOnDragOver}
@@ -143,7 +141,7 @@ function Home() {
               handleOnDrop(event, listItem._id, listItem.taskId._id)
             }
           >
-            <div style={{backgroundColor:listItem.taskId.taskColor || 'white' }}className="list-title">
+            <div className="list-title">
               <h1  >{listItem.taskId?.title || "Untitled Task"}</h1>
               <div
                 className="three-dots"

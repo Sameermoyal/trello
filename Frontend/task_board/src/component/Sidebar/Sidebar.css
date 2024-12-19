@@ -1,0 +1,25 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.sidebar{
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    border: 2px solid transparent;
+    background-color: #963061;
+    z-index: 10;
+    transition: width 0.3s ease;
+}
+
+.expand-sidebar {
+    width: 40px;
+    background-color: transparent;
+    color: black;
+}
+
+.collapse-sidebar{
+    width: 200px;
+}

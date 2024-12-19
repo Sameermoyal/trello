@@ -18,7 +18,7 @@ function Signup({userLogin}) {
     if (!email || !password) {
       setError("Both email and Password are required.");
       return;
-    }  
+    }
     setError("");
    
     try {

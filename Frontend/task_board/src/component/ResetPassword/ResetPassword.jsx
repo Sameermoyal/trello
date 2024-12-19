@@ -2,7 +2,7 @@ import React, { useState,useContext } from 'react';
 import axios from 'axios';
 import './ResetPassword.css'; 
 import { useNavigate } from 'react-router-dom';
-import UserContext from '../UserContext/UserContext';
+import { EmailContext } from '../ContextApi/UserEmailProvider';
 
 function ResetPassword() {
   const api = 'http://localhost:3000'; 
@@ -10,7 +10,7 @@ function ResetPassword() {
   const [oldPassword, setOldPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const { userEmail } = useContext(UserContext);
+  const { userEmail } = useContext(EmailContext);
   const navigate=useNavigate()
 
   const handleSubmit = async (e) => {
@@ -47,7 +47,7 @@ function ResetPassword() {
         setMessage('Password reset successfully!');
         setNewPassword('');
         setOldPassword('');
-        setTimeout(()=>navigate('/login'),4000)
+        setTimeout(()=>navigate('/'),4000)
       } else {
         setError('Failed to reset password. Please try again.');
       }
