@@ -9,6 +9,10 @@ import Login from '../Login/Login';
 import PaymentPlan from '../Premium/PaymentPlan';
 import Board from '../Board/Board';
 import Navbar from '../Nabar/Navbar';
+import Table from '../Table/Table';
+import Dashboard from '../Dashboard/Dashboard';
+import Calender from '../Calender/calender';
+
 
 function Home({ userLogin }) {
   const [expireDays, setExpireDays] = useState(true);
@@ -36,6 +40,11 @@ function Home({ userLogin }) {
         <Route path="/create" element={<Create />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/paymentplan" element={<PaymentPlan />} />
+        <Route path="/table" element={<Table />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/calender" element={<Calender />} />
+        
+      
       </Routes>
     </div>
   );

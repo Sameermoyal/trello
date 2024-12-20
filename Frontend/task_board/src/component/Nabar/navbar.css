@@ -17,5 +17,48 @@
     align-items: center;
     justify-content: start;
   color: white;
+  width: 100%;
+
+}
+
+.navbar-children-left{
+  display: flex;
+  width: 55%;
+  height: 80%;
  
+  justify-content: space-around;
+  align-items: center;
+  
+
+}
+.navbar-heading{
+ text-align: center;
+}
+
+.navbar-icon{
+  margin-left: 4px;
+  margin: 2px;
+  width: 20px;
+}
+.navbar-board,.navbar-table,.navbar-clender,.navbar-dashBoard{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  
+}
+
+.calender-icon{
+  width: 11px;
+  margin-bottom: 5px;
+  margin-right: 4px;
+}
+
+
+.navbar-children-right{
+  width: 36%;
+}
+
+.inside-link-tag{
+  text-decoration: none;
+  color: inherit;
 }
