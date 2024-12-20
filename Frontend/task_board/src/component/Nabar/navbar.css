@@ -58,7 +58,15 @@
   width: 36%;
 }
 
-.inside-link-tag{
+.nav-item-active{
   text-decoration: none;
   color: inherit;
+  color: black;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.inside-link-tag{
+  text-decoration: none;
+  color:white
 }
