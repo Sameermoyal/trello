@@ -1,0 +1,21 @@
+.navbar{
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    right:0;
+    height: 100px;
+    left: 300px;
+    border: 2px solid transparent;
+    display: flex;
+    background-color: #9C446E ;
+    z-index: 9;
+      
+}
+
+.navbar-children{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  color: white;
+ 
+}

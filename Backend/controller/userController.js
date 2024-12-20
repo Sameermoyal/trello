@@ -10,8 +10,18 @@ exports.userSignUP=async(req,res)=>{
       const{email,password}=req.body;
      const salt=bcrypt.genSaltSync(10)
      const hashPassword=await bcrypt.hashSync(password,salt)
-  
-    const user=  await new userModel({email,password:hashPassword}).save()
+    
+     const trialDays=5;
+     const trialStartDate=new Date();
+     const trialEndDate=new Date();
+      trialEndDate.setDate(trialStartDate.getDate()+trialDays)
+
+    const user=  await new userModel({email,password:hashPassword,
+      trial_start_date: trialStartDate,
+        trial_end_date: trialEndDate,
+        is_premium: false
+
+    }).save()
   
     res.status(200).json({message:"successfully signup",user})
   
@@ -19,6 +29,8 @@ exports.userSignUP=async(req,res)=>{
       res.status(500).json({message:"internal server error",error:error.message})
     }    
   }
+
+  
 
 exports.userLogin=async(req,res)=>{
     try{
@@ -28,6 +40,8 @@ exports.userLogin=async(req,res)=>{
         return  res.status(400).json({message:"user not register"})
       }
       console.log('>user>>>>',user)
+    
+
       const dbPassword=user.password
      const match=await bcrypt.compare(password,dbPassword)
        
@@ -63,6 +77,8 @@ exports.userLogin=async(req,res)=>{
         res.status(500).json({message:"error to getAll",error:error.message})
     }
 }
+
+
   exports.getOneDetails=async(req,res)=>{
     try{
      const userId= req.user.id
@@ -79,8 +95,17 @@ exports.userLogin=async(req,res)=>{
         model: "user",
       },
     });
+    const trialEndDate=user.trial_end_date
+    const endDate =new Date(trialEndDate);
+    const now=new Date();
+    const differnce=endDate-now;
     
-   res.status(200).json({message:" getOne route",listPopulate,email:user.email})
+    if(differnce<=0)return "Trial Expired";
+    const days=Math.floor(differnce/(1000*60*60*24))
+    console.log("days>>>>> ",days)
+   
+    
+   res.status(200).json({message:" getOne route",listPopulate,email:user.email, remainingDays : days, is_premium:user.is_premium} )
     }catch(error){
         res.status(500).json({message:"error to getAll",error:error.message})
     }

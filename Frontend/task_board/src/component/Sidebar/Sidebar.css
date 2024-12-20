@@ -12,14 +12,91 @@
     background-color: #963061;
     z-index: 10;
     transition: width 0.3s ease;
+   
 }
 
 .expand-sidebar {
-    width: 40px;
+    width: 20px;
     background-color: transparent;
     color: black;
 }
 
 .collapse-sidebar{
     width: 200px;
+    position: relative;
+}
+
+.expand-sidebar button{
+    background-color: transparent;
+    height: 40px;
+    width: 40px;
+    color: white;
+    display: flex;
+      justify-content: center; 
+      align-items: center; 
+}
+
+.collapse-sidebar button{
+    background-color: transparent;
+   
+    height: 30px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    right: 0;
+}
+
+
+.collapse-sidebar button:hover{
+    background-color: #AC5B82;
+    border: 2px solid white;
+}
+.expand-sidebar button:hover{
+    background-color: transparent;
+   
+}
+.sidebar-logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    border-bottom:1px solid white;
+    height: 50px;
+    font-size: smaller;
+    padding: 5px;
+} 
+
+.inside-sidebar-logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-main{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.sidebar-content{
+width: 100%;
+position: absolute;
+bottom: 0;
+top: 50px;
+
+display: flex;
+flex-direction: column-reverse;
+justify-content: start;
+align-items: start;
+padding: 15px;
+font-size: medium;
+}
+
+.sidebar-content h5{
+    margin: 10px;
+    color: white;
 }

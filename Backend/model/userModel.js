@@ -14,6 +14,18 @@ const userSchema =mongoose.Schema({
         type:String,
         required:false,
     },
+    trial_start_date:{
+        type:String,
+        required:false,
+    },
+    trial_end_date:{
+        type:String,
+        required:false,
+    },
+    is_premium:{
+        type:Boolean,
+        required:false,
+    },
  })
 
 module.exports=mongoose.model('user',userSchema)

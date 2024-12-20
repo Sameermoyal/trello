@@ -12,16 +12,29 @@ function Sidebar() {
     <div>
       <div className="sidebar">
         {!expand && (
-          <button className="expand-sidebar" onClick={toggelSidebar}>
-            <FaArrowAltCircleRight />
-          </button>
+          <div className="expand-sidebar" onClick={toggelSidebar}>
+          
+          <button><FaArrowAltCircleRight /></button>
+          </div>
         )}
         {expand && (
           <div>
-            <button className="collapse-sidebar" onClick={toggelSidebar}>
-              <FaArrowAltCircleLeft />
-            </button>
-            <div>sidebar-content</div>
+            <div className="collapse-sidebar" onClick={toggelSidebar}>
+              <div className="sidebar-logo">
+              <div className="inside-sidebar-logo"><h4>Trello Workspace</h4><p> premiun</p></div>
+              <button>  < FaArrowAltCircleLeft /></button>
+              </div>
+            </div>
+            <div className="sidebar-content">
+             <div><h5>Board</h5></div>
+             <div><h5>Member</h5></div>
+             <div><h5>WorkSpace setting</h5></div>
+             <div><h5>Workspace views</h5></div>
+             <div><h5>table</h5></div>
+             <div><h5>Calender</h5></div>
+             
+             <div></div>
+            </div>
           </div>
         )}
       </div>

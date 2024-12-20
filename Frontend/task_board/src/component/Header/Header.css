@@ -44,3 +44,105 @@
     font-size: 16px;
    margin-top: 2px;
 }
+
+.header-right{
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.timerButton{
+    width: 120px;
+    height: 30px;
+    background-color: #1953C5;
+    padding: 4px;
+    transition:background-color 0.5s ease-in ;
+}
+
+.timerButton:hover{
+ background-color: rgb(36, 44, 208);
+}
+
+.drop-down-detail{
+    position: absolute;
+    top: 50px;
+    right: 200px;
+    height: 200px;
+    width: 150px;
+    border: 2px solid white;
+    z-index:12;
+    background-color: white;
+    border-radius: 5px;
+    padding: 8px;
+}
+.drop-down-detail button{
+  height: 25px;
+  background-color: greenyellow;
+  width: 80px;
+}
+.bellIconStyle{
+    color: white;
+    width: 25px;
+    height: 22px;
+}
+
+.searchBar,.questionMark{
+height: 18px;
+width: 25px;
+color: white;
+}
+
+.header-left{
+    display: flex;
+   align-items: center;
+   flex-direction: row;
+   justify-content: start;
+   padding: 2px;
+  
+}
+.gridDots{
+    color: white;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+
+.logoName-web{
+    color:  white;
+    margin: 5px;
+    
+}
+
+.more-link{
+    color: white;
+    padding-left: 20px;
+    display: flex;
+   
+    width: 90px;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.down-arrow{
+    color: white;
+    
+}
+
+.outer-add-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add-item{
+    color: white;
+    height: 30px;
+    width: 30px;
+    margin-left: 25px;
+}
+
+
+
+

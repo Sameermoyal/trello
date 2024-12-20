@@ -10,12 +10,13 @@ import { BsThreeDots } from 'react-icons/bs'
 import { MdDelete } from "react-icons/md";
 
 
-function Board() {
+function Board({setExpireDays}) {
   const [data, setData] = useState([]);
   const { setUserEmail } = useContext(EmailContext)
   const navigate = useNavigate();
   const { expand } = useContext(SidebarContext);
- 
+  
+
  const [selectColor,setSelectColor]=useState('white')
  const handleColorChange=(e)=>{setSelectColor(e.target.value), console.log('Selected Color:', e.target.value)}
   
@@ -38,8 +39,13 @@ function Board() {
           }
         });
         console.log("data>>>>", res.data.listPopulate);
+        console.log("endtime>>>>", res.data.endDate,res.data.is_premium);
+       
         setData(res.data.listPopulate);
-        setUserEmail(res.data.email)
+        setUserEmail(res.data.email);
+        
+        setExpireDays(res.data.remainingDays)
+        console.log('remainingDays',res.data.remainingDays)
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -60,6 +66,9 @@ function Board() {
     };
     fetchData()
   }, [])
+
+
+
 
   function handleOnDragOver(e) {
     e.preventDefault();
@@ -143,7 +152,7 @@ async function deleteTask(taskId) {
 
   return (
     <div>
-      <div className="board"  style={{ left: expand ? "200px" : "40px", }}>
+      <div className="board"  style={{ left: expand ? "200px" : "20px", }}>
         <div className="board-container">
           {data.map((listItem) =>{
             const isCardVisible = visibleDropdown===listItem.taskId?._id;
