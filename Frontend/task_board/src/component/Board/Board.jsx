@@ -156,7 +156,7 @@ async function deleteTask(taskId) {
         <div className="board-container">
           {data.map((listItem) =>{
             const isCardVisible = visibleDropdown===listItem.taskId?._id;
-            console.log("isCardVisible",isCardVisible)
+           
             return(<div className="board-card" key={listItem._id} style={{ backgroundColor: listItem.taskId.taskColor || 'white' }}
             onDragOver={handleOnDragOver}
             onDrop={(event) =>
@@ -164,9 +164,9 @@ async function deleteTask(taskId) {
             }
             >
 
-              <div className="list-title">
+              <div className="board-list-title">
                 <h1  >{listItem.taskId?.title || "Untitled Task"}</h1>
-                 <div className="three-dots" onClick={() => toggleCard(listItem.taskId._id)}><BsThreeDots /></div>
+                 <div className="three-dots-board" onClick={() => toggleCard(listItem.taskId._id)}><BsThreeDots /></div>
               </div>
               {isCardVisible && <div ref={dropdownRef} className="isVisible-Card"> 
                 <div> <h4>List Action</h4></div>

@@ -48,9 +48,9 @@ function Login({userLogin}) {
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password"/>
         </div>
-        <button type="submit">Login</button>
+        <button className='button'type="submit">Login</button>
         <p>or</p>
-       <Link to='signup' ><button>Sign Up</button></Link>
+       <Link to='signup'><button className='button'>Sign Up</button></Link>
       </form>
     </div>
   );

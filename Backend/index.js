@@ -3,12 +3,16 @@ const mongoose=require('mongoose')
 require('dotenv').config()
 const cors=require('cors')
 const router=require("./router/route")
-
+const fileUpload =require('express-fileupload')
+const cloudinary =require('cloudinary')
 const app=express();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
+app.use(fileUpload({
+    useTempFiles:true
+}))
 app.use('/',router)
 
 const mongoURL=process.env.MONGODB_URL

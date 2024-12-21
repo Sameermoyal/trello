@@ -1,13 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-}
 
 .login-container {
     display: flex;
@@ -58,7 +49,7 @@ body {
     box-shadow: 0 0 4px rgba(76, 175, 80, 0.2);
 }
 
-button {
+.button{
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -70,7 +61,7 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.button:hover {
     background-color: #45a049;
 }
 

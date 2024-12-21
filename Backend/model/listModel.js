@@ -15,7 +15,16 @@ const listSchema =mongoose.Schema({
         type:String,
         required:false,
     },
+    deadline:{
+        type:Date,
+    },
+    files:[
+        {
+            url:String,
+            name:String
+        }
+    ]
    
  })
 
- module.exports=mongoose.model('list',listSchema)
+ module.exports=mongoose.model('list',listSchema)   

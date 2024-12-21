@@ -5,5 +5,121 @@
     right: 0;
     border: 2px solid transparent;
     display: flex;
-    background-color: #CD5A91;   
+    background-color: #CD5A91;  
+    overflow: hidden; 
+    
+}
+
+
+.table-content{
+    border: 2px solid;
+    width: 100%;
+    margin: 20px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 20px;
+    height:(100%-40px) ;
+    overflow: hidden;
+
+     
+}
+
+.table-card-heading{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: start;
+    padding-left: 25px;
+    
+}
+
+.table-card{
+   width: 100%;
+    height: 80%;
+    height: 450px;
+    overflow-y: scroll;
+
+}
+.table-data-outer{
+    display: flex;
+    flex-direction: column; 
+    padding: 0;
+    align-items: center;
+    
+}
+
+.table-data{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+   
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+    margin: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    flex-wrap: nowrap;
+    padding-left: 0;
+    
+}
+.table-data h4{
+    padding-left: 0;
+    margin: 0;
+}
+
+.create-list{
+    position: fixed;
+    bottom: 50px;
+    left: 60px;
+}
+
+.create-list button{
+    background-color:#CD5A91
+}
+
+.create-list button:hover{
+    background-color: hsl(221, 87%, 29%);
+}
+
+.addList-card{
+    position: absolute;
+    bottom:85px;
+    left:50px;
+    height: 320px;
+    width:400px;
+    z-index: 12;
+    background-color:whitesmoke;
+    border-radius: 5px solid white;
+}
+
+.create-form{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+    padding: 30px;
+}
+.create-form h4{
+    text-align: center;
+}
+.create-form form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  
+    height: 260px;
+}
+.create-form label{
+    align-content: center;
+}
+
+#form-list-name,#form-list-list{
+    height: 30px;
+}
+
+#e-date,#s-date{
+    margin: 3px;
 }

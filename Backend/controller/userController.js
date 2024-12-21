@@ -274,3 +274,132 @@ exports.resetOldPassword=async(req,res)=>{
     return res.status(500).json({message:"error detect to resetPassword :" ,error:error.message})
   }
 }
+
+const fileUpload =require('express-fileupload')
+const cloudinary =require('cloudinary')
+const express=require('express')
+const app=express()
+cloudinary.config({
+  cloud_name: 'dqfhn7rw3',
+  api_key: '382695276612379', 
+  api_secret:'3XWIpGNiRSe2K2Cs2t9-fUtPPY0', 
+});
+
+app.use(fileUpload({
+  useTempFiles: true, // Enable temporary file storage
+  tempFileDir: '/tmp/' // Set temporary file storage directory
+}));
+exports.uploadFile=async(req,res)=>{
+  try{
+    const id=req.user.id
+     console.log("userid",id)
+     const { listItem } = req.body; 
+     const parsedListItem = JSON.parse(listItem); 
+       console.log("parsedListItem ",parsedListItem )
+      console.log(req.files)
+      if(!req.files || !req.files.image){
+          return res.status(400).json({message:"'image is not uploaded '"})
+      }
+      const file=req.files.image;
+      const result =await cloudinary.uploader.upload(file.tempFilePath)
+      const list = await listModel.findById(parsedListItem._id);
+      list.files.push({
+        url: result.secure_url,
+        name: file.name
+      });
+      await list.save();
+      return res.status(200).json({message:"'file upload successfully '",imageurl:result.secure_url})
+
+  }catch(error){
+      return res.status(500).json({message:"'server error '",error:error.message})
+  }
+}
+
+
+
+
+exports.deadline=async(req,res)=>{
+  try{
+   const userId= req.user.id
+   const {deadline,listId}= req.body 
+  //   const userPopulate=await taskModel.find().populate('userId');
+
+  console.log("deadline",deadline)
+  if(!deadline){
+    return res.status(401).json({message:"not set ending time"})
+  }
+  const _id=listId
+  const list=await listModel.findById(_id)
+  list.deadline=deadline 
+  list.save()
+  console.log("listItem",list)
+ res.status(200).json({message:" get All",listPopulate})
+  }catch(error){
+      res.status(500).json({message:"error to getAll",error:error.message})
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.uploadFile = async (req, res) => {
+//   try {
+//     const id = req.user.id; // Assuming you are fetching user id from authentication middleware
+//     console.log("User ID:", id);
+
+//     const { listItem } = req.body; // Access the listItem from the request body
+//     const parsedListItem = JSON.parse(listItem); // Parse it back into an object
+
+//     console.log("Parsed ListItem:", parsedListItem);
+//     console.log("Files:", req.files);
+
+//     if (!req.files || !req.files.image) {
+//       return res.status(400).json({ message: "Image is not uploaded." });
+//     }
+
+//     const file = req.files.image;
+
+//     // Upload the file to Cloudinary
+//     const result = await cloudinary.uploader.upload(file.tempFilePath);
+//     console.log("Uploaded file URL:", result.secure_url);
+
+//     // Find the list item by its ID or any other unique identifier
+//     const list = await listModel.findById(parsedListItem._id);
+
+//     if (!list) {
+//       return res.status(404).json({ message: "List not found." });
+//     }
+
+//     // Update the files array with the new image URL
+//     list.files.push({
+//       url: result.secure_url,
+//       name: file.name
+//     });
+
+//     // Save the updated list
+//     await list.save();
+
+//     return res.status(200).json({
+//       message: "File uploaded successfully.",
+//       imageurl: result.secure_url
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Server error.", error: error.message });
+//   }
+// };

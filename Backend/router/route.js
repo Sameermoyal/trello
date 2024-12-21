@@ -14,5 +14,8 @@ router.patch('/updateColorList',auth,userController.updateColorList)
 router.patch('/updateColorTask',auth,userController.updateColorTask)
 router.patch('/resetPassword',auth,userController.resetOldPassword)
 router.delete('/deleteTask/:taskId',auth,userController.deleteTask)
+router.post('/uploadFile',auth,userController.uploadFile)
+router.post('/deadline',auth,userController.deadline)
+
 module.exports =router;
 

@@ -17,7 +17,7 @@
     
 }
 .board-card{
-    position: relative;
+   
     border: 2px solid transparent;
     display: flex;
     height: 400px;
@@ -32,21 +32,23 @@
     
 }
 
-.list-title{
+.board-list-title{
     display: flex;
     align-items: center;
     width: 100%;
     text-align: center;
+    position: relative;
+    
 }
-.list-title h1{
+.board-list-title h1{
     padding-top: 7px;
     padding-left: 20px;
     
 }
- .three-dots{
-   position: absolute;
-   right: 20px;
-   top:20px
+.three-dots-board{
+  position: absolute;
+  right: 10px;
+  
 }
 .list-description{
 width: 95%;
