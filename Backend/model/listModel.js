@@ -13,15 +13,44 @@ const listSchema =mongoose.Schema({
     },
     listColor:{
         type:String,
-        required:false,
+        default:'pink'
     },
-    deadline:{
-        type:Date,
-    },
+   deadline:{
+    type:Array,
+    default: [
+        {
+            startDate:{
+               type:Date,
+               default:Date.now,
+            },
+            endDate:{
+               type:Date,
+               required:false,
+               
+            },
+            reminder:{
+               type:String,
+               required:false,
+            },
+            endTime:{
+               type:Date,
+               required:false,
+            },
+            index:{
+               type:Number,
+               required:false
+            }
+       
+          }
+       ],
+}
+   ,
+  
     files:[
         {
             url:String,
-            name:String
+            name:String,
+            imgPosition:Number,
         }
     ]
    

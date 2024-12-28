@@ -1,6 +1,10 @@
 const mongoose=require('mongoose')
 
 const userSchema =mongoose.Schema({
+    userName:{
+        type:String,
+        required:true,
+    },
  email:{
         type:String,
         required:true,
@@ -14,6 +18,20 @@ const userSchema =mongoose.Schema({
         type:String,
         required:false,
     },
+    
+    template:{
+        type:String,
+        required:false
+    },
+    referalCode:{
+        type:String,
+        required:true
+    },
+    referalId:{
+        type:String,
+        required:false
+    },
+   
     trial_start_date:{
         type:String,
         required:false,
@@ -26,6 +44,7 @@ const userSchema =mongoose.Schema({
         type:Boolean,
         required:false,
     },
+   
  })
 
 module.exports=mongoose.model('user',userSchema)

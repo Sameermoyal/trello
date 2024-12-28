@@ -5,7 +5,7 @@
     right: 0;
     border: 2px solid transparent;
     display: flex;
-    background-color: #CD5A91;  
+   
     overflow: hidden; 
     
 }
@@ -75,11 +75,14 @@
     left: 60px;
 }
 
-.create-list button{
-    background-color:#CD5A91
+.create-list-button{
+    background-color:#CD5A91;
+    border-radius: 8px;
+    
+    
 }
 
-.create-list button:hover{
+.create-list-button:hover{
     background-color: hsl(221, 87%, 29%);
 }
 

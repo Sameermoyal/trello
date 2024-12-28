@@ -14,7 +14,7 @@ function Sidebar() {
         {!expand && (
           <div className="expand-sidebar" onClick={toggelSidebar}>
           
-          <button><FaArrowAltCircleRight /></button>
+          <button style={{border:"2px white"}}><FaArrowAltCircleRight /></button>
           </div>
         )}
         {expand && (
@@ -22,7 +22,7 @@ function Sidebar() {
             <div className="collapse-sidebar" onClick={toggelSidebar}>
               <div className="sidebar-logo">
               <div className="inside-sidebar-logo"><h4>Trello Workspace</h4><p> premiun</p></div>
-              <button>  < FaArrowAltCircleLeft /></button>
+              <button style={{border:"2px white"}}>  < FaArrowAltCircleLeft /></button>
               </div>
             </div>
             <div className="sidebar-content">

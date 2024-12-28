@@ -56,9 +56,10 @@
 .timerButton{
     width: 120px;
     height: 30px;
-    background-color: #1953C5;
+    background-color: hsl(202, 77%, 44%);
     padding: 4px;
     transition:background-color 0.5s ease-in ;
+   border-radius: 8px ;
 }
 
 .timerButton:hover{
@@ -146,3 +147,57 @@ color: white;
 
 
 
+.header-items{
+    color: white;
+    display: flex;
+
+}
+
+.header-item{
+    margin: 2px;
+    padding: 2px;
+    left: 40px;
+}
+
+.templateCard{
+    position: absolute;
+    top: 50px;
+    left: 350px;
+    height: 400px;
+    width: 300px;
+  
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+   
+}
+
+.templateCard-top{
+   
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.865);
+   
+}
+.templateCard-card{
+    border: 2px solid;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px;
+    overflow-y: scroll;
+    
+}
+.templateCard-card img{
+    margin: 2px;
+}
+.templateCard-bottom{
+    
+    height: 70px;
+}

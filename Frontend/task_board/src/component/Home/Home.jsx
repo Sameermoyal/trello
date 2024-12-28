@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState ,useContext} from 'react';
+import { Route, Routes,Navigate, useLocation } from 'react-router-dom';
 import './Home.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
@@ -11,20 +11,21 @@ import Board from '../Board/Board';
 import Navbar from '../Nabar/Navbar';
 import Table from '../Table/Table';
 import Dashboard from '../Dashboard/Dashboard';
-import Calender from '../Calender/calender';
-
+import Calenders from '../Calender/Calenders';
+import Map from '../Map/Map';
+import { templateContext } from '../ContextApi/TemplateProvider';
 
 function Home({ userLogin }) {
   const [expireDays, setExpireDays] = useState(true);
   const location = useLocation(); 
-  
+  const {templateUrl}=useContext(templateContext)
 
   const isLoginOrPaymentPlan = location.pathname === '/login' || location.pathname === '/paymentplan';
      //  if(!expireDays){
   //   return <PaymentPlan/>
   //  }
   return (
-    <div className="home">
+    <div className="home" style={{backgroundImage: templateUrl ? `url(${templateUrl})`:"null",backgroundSize:templateUrl ? "cover" :"null"}}>
     
       {!isLoginOrPaymentPlan && (
         <>
@@ -35,16 +36,16 @@ function Home({ userLogin }) {
       )}
       
       <Routes>
-        <Route path="/" element={<Board setExpireDays={setExpireDays} />} />
+        <Route index element={<Board setExpireDays={setExpireDays} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create" element={<Create />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/paymentplan" element={<PaymentPlan />} />
         <Route path="/table" element={<Table />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/calender" element={<Calender />} />
-        
-      
+        <Route path="/calender" element={<Calenders />} />
+        <Route path="/map" element={<Map />} />
+        <Route path='*' element={<Navigate to='/' replace />} />     
       </Routes>
     </div>
   );

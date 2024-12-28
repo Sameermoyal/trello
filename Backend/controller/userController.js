@@ -7,7 +7,12 @@ const listModel=require('../model/listModel')
 
 exports.userSignUP=async(req,res)=>{
     try{
-      const{email,password}=req.body;
+      const{email,password,userName}=req.body;
+      const spliceName=userName.slice(0,2)
+      const randomNum=Math.floor(Math.random() *90)+10;
+   
+     const  referalCode=spliceName+randomNum;
+     console.log("referalCode>>>>",referalCode)
      const salt=bcrypt.genSaltSync(10)
      const hashPassword=await bcrypt.hashSync(password,salt)
     
@@ -16,7 +21,7 @@ exports.userSignUP=async(req,res)=>{
      const trialEndDate=new Date();
       trialEndDate.setDate(trialStartDate.getDate()+trialDays)
 
-    const user=  await new userModel({email,password:hashPassword,
+    const user=  await new userModel({userName,email,password:hashPassword,referalCode,
       trial_start_date: trialStartDate,
         trial_end_date: trialEndDate,
         is_premium: false
@@ -57,31 +62,12 @@ exports.userLogin=async(req,res)=>{
   }
 
 
-  exports.getDetails=async(req,res)=>{
-    try{
-     const userId= req.user.id
-      const listPopulate=await listModel.find().populate(
-        {
-          path: 'taskId', 
-          populate: {
-              path: 'userId', 
-              model: 'user'  
-          }
-      }
-      );
-    //   const userPopulate=await taskModel.find().populate('userId');
-
-
-   res.status(200).json({message:" get All",listPopulate})
-    }catch(error){
-        res.status(500).json({message:"error to getAll",error:error.message})
-    }
-}
 
 
   exports.getOneDetails=async(req,res)=>{
     try{
      const userId= req.user.id
+     console.log("userId>>>>",userId)
     const user=await userModel.findOne({_id:userId})
     const userTask=await taskModel.find({userId:user._id})
     const taskIds=userTask.map(i=>i._id)
@@ -103,9 +89,9 @@ exports.userLogin=async(req,res)=>{
     if(differnce<=0)return "Trial Expired";
     const days=Math.floor(differnce/(1000*60*60*24))
     console.log("days>>>>> ",days)
-   
+    console.log("userName     :   ",user.userName)
     
-   res.status(200).json({message:" getOne route",listPopulate,email:user.email, remainingDays : days, is_premium:user.is_premium} )
+   res.status(200).json({message:" getOne route",listPopulate,email:user.email,name:user.userName,remainingDays : days, is_premium:user.is_premium} )
     }catch(error){
         res.status(500).json({message:"error to getAll",error:error.message})
     }
@@ -204,6 +190,29 @@ exports.deleteTask=async(req,res)=>{
     }
 }
 
+exports.addTask=async(req,res)=>{
+  try{
+    const{addAnotherTask,_id}=req.body;
+    if (!addAnotherTask || !_id) {
+      return res.status(400).json({ message: "Task and list ID are required" });
+    }
+    const list=await listModel.findById(_id);
+    console.log(addAnotherTask)
+
+    if (!list) {
+      return res.status(400).json({ message: "List not found" });
+    }
+    list.descriptionList.push(addAnotherTask);
+    list.save();
+     console.log(">>>>>>",list)
+  res.status(200).json({message:"successfully add task in list",list:list.descriptionList})
+  }catch(error){
+    res.status(500).json({message:"error to post add task"})
+  }
+}
+
+
+
 exports.updateColorList=async(req,res)=>{
   try{
     const id=req.user.id
@@ -292,50 +301,99 @@ app.use(fileUpload({
 exports.uploadFile=async(req,res)=>{
   try{
     const id=req.user.id
-     console.log("userid",id)
-     const { listItem } = req.body; 
+     const { listItem ,descItem} = req.body; 
      const parsedListItem = JSON.parse(listItem); 
-       console.log("parsedListItem ",parsedListItem )
-      console.log(req.files)
+       console.log("descItem>>>>>uploadFile",descItem)
       if(!req.files || !req.files.image){
           return res.status(400).json({message:"'image is not uploaded '"})
       }
       const file=req.files.image;
       const result =await cloudinary.uploader.upload(file.tempFilePath)
       const list = await listModel.findById(parsedListItem._id);
+      console.log("descItem",typeof(parseInt(descItem)))
       list.files.push({
         url: result.secure_url,
-        name: file.name
+        name: file.name,
+        imgPosition:parseInt(descItem)
       });
       await list.save();
       return res.status(200).json({message:"'file upload successfully '",imageurl:result.secure_url})
 
   }catch(error){
-      return res.status(500).json({message:"'server error '",error:error.message})
+      return res.status(500).json({message:"'server error to upload image in list '",error:error.message})
+  }
+}
+
+exports.uploadTemplateFile=async(req,res)=>{
+  try{
+    const _id=req.user.id;
+    
+    const {image}=req.files;
+    if(!image){
+      return res.status(400).json({message:"'image is not uploaded '",})
+    }
+      const file=req.files.image;
+      console.log("Temporary file path:", file.tempFilePath);
+       const result =await cloudinary.uploader.upload(file.tempFilePath)
+       const user = await userModel.findById(_id);
+      console.log("user",user)
+      
+    console.log("after result")
+       
+          await userModel.findByIdAndUpdate(_id,{template:result.secure_url});
+          console.log("update template >>")
+        
+    console.log("url",result.secure_url)
+    console.log("successuly work template uploader");
+    return res.status(200).json({message:"'file upload successfully '",url:result.secure_url})
+  }catch(error){
+    return res.status(500).json({message:"'server error to uplaod template '",error:error.message})
   }
 }
 
 
+ exports.getTemplateFile=async(req,res)=>{
+   try{ 
+    const id=req.user.id
+  
+ console.log("called get api")
+   const user= await  userModel.findOne({_id:id})
+
+  console.log(" user >>>",user)
+  res.status(200).json({message:"template set successfully",template:user.template,
+   })
+}catch(error){
+   res.status(500).json({message:"bad request",error:error.message});
+}
+}
 
 
-exports.deadline=async(req,res)=>{
+exports.reminderDeadline=async(req,res)=>{
   try{
    const userId= req.user.id
-   const {deadline,listId}= req.body 
+   const {starDate,endDate,endTime,reminder,listId,descItem}= req.body 
   //   const userPopulate=await taskModel.find().populate('userId');
 
-  console.log("deadline",deadline)
-  if(!deadline){
-    return res.status(401).json({message:"not set ending time"})
+ 
+  if(!endDate || !starDate || ! endTime || ! reminder){
+    return res.status(401).json({message:"all fields are required"})
   }
+  const combinedDateTime = `${endDate}T${endTime}:00`; 
+  const endTimeDate=new Date(combinedDateTime)
   const _id=listId
   const list=await listModel.findById(_id)
-  list.deadline=deadline 
-  list.save()
+ 
+  console.log("list.deadline >>",list)
+  console.log("listId",listId,"descItem",descItem," reminder ",reminder," starDate ",starDate," endDate ",endDate," endTime ",endTime)
+
+ list.deadline.push( { startDate : new Date(starDate) ,endDate:new Date(endDate), reminder:reminder, endTime:endTimeDate, index:descItem})
+ 
+ await list.save();
+  
   console.log("listItem",list)
- res.status(200).json({message:" get All",listPopulate})
+ res.status(200).json({message:" reminder successfully save ",})
   }catch(error){
-      res.status(500).json({message:"error to getAll",error:error.message})
+      res.status(500).json({message:"error to deadline",error:error.message})
   }
 }
 

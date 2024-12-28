@@ -5,7 +5,7 @@
     right: 0;
     border: 2px solid transparent;
     display: flex;
-    background-color: #CD5A91;   
+    
 }
 
 .board-container{
@@ -13,14 +13,14 @@
     height: 100%;
     display: flex;
     padding: 50px;
-    overflow-x: scroll;
-    
+    overflow-x: auto;
+   
 }
 .board-card{
    
     border: 2px solid transparent;
     display: flex;
-    height: 400px;
+    min-height: 400px;
     min-width: 300px;
     margin: 10px;
     padding: 5px;
@@ -29,7 +29,8 @@
     justify-content: flex-start;
     align-items: center;
     border-radius: 20px;
-    
+    border:2px solid;
+    position: relative;
 }
 
 .board-list-title{
@@ -37,7 +38,7 @@
     align-items: center;
     width: 100%;
     text-align: center;
-    position: relative;
+    border: 2px red;
     
 }
 .board-list-title h1{
@@ -50,6 +51,12 @@
   right: 10px;
   
 }
+.list-description-parent{
+    height:350px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
 .list-description{
 width: 95%;
 }
@@ -73,7 +80,7 @@ width: 95%;
     align-items: center;
     border-radius: 20px;
     background-color: white;
-    
+   
 }
 .create-button button {
     cursor: pointer;

@@ -1,0 +1,10 @@
+.map{
+    position: absolute;
+    top: 150px;
+    bottom: 0;
+    right: 0;
+    border: 2px solid transparent;
+    display: flex;
+     
+    overflow-y: scroll; 
+}

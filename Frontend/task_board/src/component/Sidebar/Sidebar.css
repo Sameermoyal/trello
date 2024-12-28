@@ -18,7 +18,7 @@
 .expand-sidebar {
     width: 20px;
     background-color: transparent;
-    color: black;
+    border:4px transparent;
 }
 
 .collapse-sidebar{
@@ -34,6 +34,7 @@
     display: flex;
       justify-content: center; 
       align-items: center; 
+      border-radius: 10px;
 }
 
 .collapse-sidebar button{

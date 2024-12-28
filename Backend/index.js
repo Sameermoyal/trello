@@ -3,6 +3,7 @@ const mongoose=require('mongoose')
 require('dotenv').config()
 const cors=require('cors')
 const router=require("./router/route")
+const navRouter=require('./router/navRoute')
 const fileUpload =require('express-fileupload')
 const cloudinary =require('cloudinary')
 const app=express();
@@ -14,6 +15,7 @@ app.use(fileUpload({
     useTempFiles:true
 }))
 app.use('/',router)
+app.use('/setting',navRouter)
 
 const mongoURL=process.env.MONGODB_URL
 mongoose.connect(mongoURL).then(()=>console.log("mongodb successfully connected")).catch((error)=>console.log("error to connect mongoDB" ,error))

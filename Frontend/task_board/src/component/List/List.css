@@ -5,14 +5,151 @@
     text-align: center;
     font-size: large;
     padding: 4px;
+   
 }
 
-.list-drop-down{
+/* .list-drop-down{
+    left:0px;
+    right:0px;
     height: 200px;
-    width: 200px;
+   
     border: 2px solid;
     position: absolute;
     background-color: whitesmoke;
     border-radius: 4px solid;
     
+} */
+
+
+.outer-list-card{
+    position: fixed;
+    border: 2px solid black;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .list-card{
+      position: fixed;
+      top: 50px;
+      height: 1000px;
+      width: 700px;
+      border: 2px solid;
+      z-index: 15;
+      display: flex;
+      flex-direction: row; 
+      background-color: whitesmoke;
+      border-radius: 10px;
+      overflow: auto;
+      justify-content: space-between;
+      padding: 5px;
+  }
+  
+  .list-card-left{
+      border: 2px solid;
+      width: 450px;
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .list-card-right{
+      border :2px solid;
+      width: 240px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+  }
+  
+  .cross-button{
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      border: 0px;
+      
+  }
+  
+  .list-card-right-content{
+      position: absolute;
+      top: 80px;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      width: 150px;
+      border: 2px solid;
+  }
+  
+  .list-card-right-content-button{
+      margin: 4px;
+      height: 30px;
+      border-radius: 4px;
+  }
+  
+  .dateDropDown{
+      height: 600px;
+      width: 200px;
+      position: absolute;
+     right:0;
+      background-color: yellow;
+     
+  }
+
+.set-attachment{
+    position: absolute;
+    background-color: white;
+    
+    right: 0;
+    width: 250px;
+    height: 600px;
+    z-index: 50;
+    border-radius: 10px;
 }
+
+  .set-deadline-date{
+    position: absolute;
+    background-color: white;
+    
+    right: 0;
+    width: 250px;
+    height: 600px;
+    z-index: 50;
+    border-radius: 10px;
+
+  }
+  
+
+
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
+
+  .dropdown-content label {
+    display: block;
+    margin: 5px 0;
+  }
+
+  .dropdown-content input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }

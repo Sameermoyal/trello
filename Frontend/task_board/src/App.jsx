@@ -5,7 +5,7 @@ import Signup from './component/Signup/Signup'
 import { useState } from 'react'
 import { Route,Routes } from 'react-router-dom'
 import './App.css'
-
+import Authentication from "./component/ProtectedRoute/Authentication"
 
 function App() {
   const [logedin,setLogedin]=useState(false)
@@ -17,16 +17,23 @@ function App() {
   
 if(! logedin){
   
-  return <div><Routes>
-      <Route path='/' element={<Login userLogin={userLogin}/>}/>
+  return <div>
+    <Routes>
+      <Route path='/' element={<Login  setLogedin={setLogedin} />} />
       <Route path='/signup' element={<Signup userLogin={userLogin}/>}/>
-    </Routes></div>
+    </Routes>
+    </div>
   
 } 
 
   return (
    <> <div className='app'>
-    <Home userLogin={userLogin}/>
+    
+    <Routes>
+    <Route path='/login' element={<Login  setLogedin={setLogedin} />} />
+      <Route path='/*' element={  <Authentication> <Home userLogin ={userLogin}/></Authentication>} />
+    </Routes>
+
     </div> </>
     
   )

@@ -72,3 +72,25 @@
   color:white;
   margin: 4px;
 }
+
+.dropdown-content {
+  position: absolute; 
+  background-color: whitesmoke;
+  z-index: 1000;
+  width: 150px; 
+  padding: 10px; 
+  border-radius: 4px; 
+  color: white;
+  top: 15px; 
+  left: 0; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  color:black
+}
+
+.dropdown-content label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}

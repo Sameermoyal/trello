@@ -88,7 +88,7 @@ function Table() {
  </div>
 </div>
         </div>
-      <div className="create-list"><button onClick={toggleState}>+ Add</button></div>
+      <div className="create-list"><button className='create-list-button' onClick={toggleState}>+ Add</button></div>
       {addList && <div className='addList-card'>
        <div className="create-form">
            <h4>Add List</h4>
