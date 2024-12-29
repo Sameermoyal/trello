@@ -27,8 +27,10 @@ const userSchema =mongoose.Schema({
         type:String,
         required:true
     },
-    referalId:{
-        type:String,
+    
+    referralId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user',
         required:false
     },
    

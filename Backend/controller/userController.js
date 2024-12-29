@@ -4,15 +4,33 @@ const jwt=require('jsonwebtoken')
 const secret_key=process.env.secret_key
 const taskModel=require('../model/taskModel')
 const listModel=require('../model/listModel')
+const nodemailer=require('nodemailer')
 
 exports.userSignUP=async(req,res)=>{
     try{
-      const{email,password,userName}=req.body;
+      const{email,password,userName,referralIdCode}=req.body;
+     
+    if(!userName || !email,!password){
+      res.status(400).json({message:"all fields name,email ,password required"})
+    }
+      if(!referralIdCode){
+        senderId=null
+      }
+
+      if(referralIdCode){
+      const sender=  await userModel.findOne({referalCode:referralIdCode})
+    
+        if(sender){
+          senderId=sender._id;
+          console.log("sender Id",senderId)
+        }else{
+        senderId=null
+        }
+           }
+      
       const spliceName=userName.slice(0,2)
       const randomNum=Math.floor(Math.random() *90)+10;
-   
-     const  referalCode=spliceName+randomNum;
-     console.log("referalCode>>>>",referalCode)
+      const  referalCode=spliceName+randomNum;
      const salt=bcrypt.genSaltSync(10)
      const hashPassword=await bcrypt.hashSync(password,salt)
     
@@ -21,10 +39,11 @@ exports.userSignUP=async(req,res)=>{
      const trialEndDate=new Date();
       trialEndDate.setDate(trialStartDate.getDate()+trialDays)
 
-    const user=  await new userModel({userName,email,password:hashPassword,referalCode,
+    const user=  await new userModel({userName,email,password:hashPassword,referalCode, 
       trial_start_date: trialStartDate,
         trial_end_date: trialEndDate,
-        is_premium: false
+        is_premium: false,
+        referralId:senderId,
 
     }).save()
   
@@ -39,20 +58,41 @@ exports.userSignUP=async(req,res)=>{
 
 exports.userLogin=async(req,res)=>{
     try{
-      const{email,password}=req.body;
+      const{email,password,referralIdCode}=req.body;
       const user =await userModel.findOne({email})
       if(!user){
         return  res.status(400).json({message:"user not register"})
       }
       console.log('>user>>>>',user)
     
-
+      
       const dbPassword=user.password
      const match=await bcrypt.compare(password,dbPassword)
        
     if(!match){
     return  res.status(400).json({message:"password invalid"})
    }
+
+   if(!referralIdCode){
+    senderId=null
+  }
+
+  if(referralIdCode){
+  const sender=  await userModel.findOne({referalCode:referralIdCode})
+
+    if(sender){
+      senderId=sender._id;
+      console.log("sender Id",senderId)
+    }else{
+    senderId=null
+    }
+   
+    user.referralId=senderId
+    user.save()
+
+       }
+  
+    
     const token =jwt.sign({id:user._id},secret_key,{expiresIn:'1h'})
     return res.status(200).json({message:"successfully signup",token})
   
@@ -67,7 +107,7 @@ exports.userLogin=async(req,res)=>{
   exports.getOneDetails=async(req,res)=>{
     try{
      const userId= req.user.id
-     console.log("userId>>>>",userId)
+     console.log("userId >>>>",userId)
     const user=await userModel.findOne({_id:userId})
     const userTask=await taskModel.find({userId:user._id})
     const taskIds=userTask.map(i=>i._id)
@@ -400,7 +440,56 @@ exports.reminderDeadline=async(req,res)=>{
 
 
 
+exports.addMember=async(req,res)=>{
 
+ try{
+  const _id=req.user.id;
+ 
+  const{addEmail}=req.body;
+ 
+  console.log(">>>>>>>>>>",addEmail)
+  if(!addEmail){
+   return res.status(400).json({message:"join member email not find"});
+  }
+  const sender=await userModel.findById(_id)
+  const senderEmail=sender.email;
+  const code=sender.referalCode;
+ 
+  if(!senderEmail){
+    return res.status(400).json({message:"admin email not find"});
+   }
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: senderEmail, 
+      pass: 'lfis oxee ftdf cout', 
+    },
+  });
+
+  const mailOptions = {
+    from: senderEmail, 
+    to: addEmail, 
+    subject: 'To Join Trello', 
+    text: 'This is a mail regarding to join Trello.', 
+     html: `<p>This is a mail regarding to join Trello.</p></br><b>Join This Code ${code} </b>
+        <a href="http://localhost:5173/signup">join</a>
+     `, 
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log('Error:', error);
+    } else {
+      console.log('Email sent:', info.response);
+    }
+  });
+
+  res.status(200).json({message:"email send to new user"})
+ }catch(error){
+  res.status(500).json({message:"error to join new member",error:error.message})
+ }
+
+}
 
 
 

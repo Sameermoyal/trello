@@ -19,7 +19,7 @@ function Board({ setExpireDays }) {
   const [addAnotherTask, setAddAnotherTask] = useState("")
 
   const [selectColor, setSelectColor] = useState('white')
-  const handleColorChange = (e) => { setSelectColor(e.target.value), console.log('Selected Color:', e.target.value) }
+  // const handleColorChange = (e) => { setSelectColor(e.target.value), console.log('Selected Color:', e.target.value) }
 
   const dropdownRef = useRef(null)
   const [visibleDropdown, setVisibleDropdown] = useState(null);
@@ -94,10 +94,10 @@ function Board({ setExpireDays }) {
     }
   }
 
-  const handleButtonClick = async (task, color) => {
-    console.log("task", color)
+  const handleButtonClick = async (e,task) => {
+
     const token = localStorage.getItem('token')
-    const response = await axios.patch(`${api}/updateColorList`, { color, task }, {
+    const response = await axios.patch(`${api}/updateColorList`, { color:e.target.value, task }, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -112,11 +112,11 @@ function Board({ setExpireDays }) {
 
   };
 
-  const handleTaskButtonClick = async (task, color) => {
+   const  handleColorChange=async (e, task) => {
 
-    console.log("task", color)
+    // console.log("task", color)
     const token = localStorage.getItem('token')
-    const response = await axios.patch(`${api}/updateColorTask`, { color, task }, {
+    const response = await axios.patch(`${api}/updateColorTask`, { color:e.target.value, task }, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -195,13 +195,13 @@ function Board({ setExpireDays }) {
                     <div> <h4>List Action</h4></div>
                     <label htmlFor="desc-setColor"><h5>Set List Color</h5></label>
                     <div id="desc-setColor">
-                      <input type="color" value={selectColor} onChange={handleColorChange} />
-                      <button onClick={() => handleButtonClick(listItem.taskId._id, selectColor)} >set</button>
+                      <input type="color" value={selectColor} onChange={(e)=>handleButtonClick (e,listItem.taskId._id)} />
+                     
                     </div>
                     <label htmlFor="list-setColor"><h5>Set Task Color</h5></label>
                     <div id="list-setColor">
-                      <input type="color" value={selectColor} onChange={handleColorChange} />
-                      <button onClick={() => handleTaskButtonClick(listItem.taskId._id, selectColor)} >set</button>
+                      <input type="color" value={selectColor} onChange={(e)=>handleColorChange(e,listItem.taskId._id)} />
+                     
                     </div>
                     <button className="delete-button" onClick={() => deleteTask(listItem.taskId._id)}>delete task <MdDelete /></button>
 
@@ -217,7 +217,7 @@ function Board({ setExpireDays }) {
                 <button style={{ position: "absolute",left:"15px" , bottom: "15px", borderRadius: "5px", width: "40px", zIndex: "100"}} onClick={() => dropDownAddTask(listItem._id)}>Add</button>
                 {taskDropDown === listItem._id && <div style={{ border: "1px solid black", borderRadius: "4px", width: "200px", height: "60px", position: "absolute", bottom: "30px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column",backgroundColor:"whitesmoke" }}>
                   <input type="text" onChange={(e) => setAddAnotherTask(e.target.value)} />
-                  <button onClick={() => addTask(listItem._id)} >Add Card</button>
+                  <button onClick={() =>( addTask(listItem._id),setTaskDropDown(pre=>!pre))} >Add Card</button>
                 </div>}
               </div>
 

@@ -7,8 +7,11 @@ function Signup({userLogin}) {
   const [email, setEmail] = useState("");
   const[userName,setUserName]=useState("");
   const [password, setPassword] = useState("");
+  const[referralIdCode,setReferralIdCode]=useState("");
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
 
   const api='http://localhost:3000'
 
@@ -26,7 +29,7 @@ function Signup({userLogin}) {
    
     try {
       console.log("email>>>>",email)
-      const userStatus = await axios.post(`${api}/signup`, { email, password ,userName})
+      const userStatus = await axios.post(`${api}/signup`, { email, password ,userName,referralIdCode})
       userLogin(true); 
       navigate('/');
     } catch (error) {
@@ -53,6 +56,10 @@ function Signup({userLogin}) {
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password"/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Refferal Code:</label>
+          <input type="text" id="code" value={referralIdCode} onChange={(e) => setReferralIdCode(e.target.value)} placeholder="Enter your Refferal Code"/>
         </div>
         
         <button className='button' type="submit" >Signup</button>

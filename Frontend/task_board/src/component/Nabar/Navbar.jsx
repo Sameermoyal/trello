@@ -11,11 +11,14 @@ import { NavLink } from 'react-router-dom';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import axios from 'axios';
+import { MdOutlineGroupAdd } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 
 function Navbar() {
   const { expand } = useContext(SidebarContext)
-
-
+  const[shareButton,setShareButton]=useState(false)
+   const[addEmail,setAddEmail]=useState("");
+  //  const[addButton,setAddButton]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const options = ["board", "table", "dashboard", "calender", "map"];
@@ -75,6 +78,20 @@ function Navbar() {
   }, [])
 
   'inside-link-tag'
+
+const joinNewMember=()=>{
+   try{
+   const token =localStorage.getItem('token');
+   axios.post(`${api}/joinNewMember`,{addEmail},{
+    headers: { authorization: `Bearer ${token}` }
+    
+   })
+
+   }catch(error){
+    console.log("error to join new member",error)
+   }
+}
+
   return (
     <div>
       <div className="navbar" style={{ left: expand ? '200px' : '20px' }}>
@@ -135,10 +152,21 @@ function Navbar() {
             </div>
           </div>
           <div className="navbar-children-right">
-
+               
+               <div className='share-button-div'><button className='share-button' onClick={()=>setShareButton(pre=>!pre)}><MdOutlineGroupAdd  className='share-icon'/><h6>Share</h6></button>
+               {shareButton && <div className='share-dropDown'>
+                  <div className='share-dropDown-top'><h5>Share Board</h5><RxCross2 onClick={()=>setShareButton(pre=>!pre)}/> </div>
+                  <div className='share-email'><input type="email" placeholder='Email address' onChange={(e)=>setAddEmail(e.target.value)} /> <button onClick={joinNewMember} >Share</button> </div>
+                  <div>Board Members</div>
+                </div>}
+               </div>
+               
+         
           </div>
+           
         </div>
       </div>
+    
     </div>
   )
 }

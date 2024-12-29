@@ -7,6 +7,7 @@ import { Link ,useNavigate} from "react-router-dom";
 function Login({setLogedin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const[referralIdCode,setReferralIdCode]=useState("")
   const [error, setError] = useState("");
  const navigate=useNavigate()
   
@@ -21,7 +22,7 @@ function Login({setLogedin}) {
     setError("");
   
     try {
-      const userStatus = await axios.post(`${api}/login`, { email, password });
+      const userStatus = await axios.post(`${api}/login`, { email, password ,referralIdCode});
       console.log('userStatus>>>>>>',userStatus.data.token)
       const token=userStatus.data.token;
       localStorage.setItem('token',token) 
@@ -48,6 +49,10 @@ function Login({setLogedin}) {
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password"/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Refferal Code:</label>
+          <input type="text" id="code" value={referralIdCode} onChange={(e) => setReferralIdCode(e.target.value)} placeholder="Enter your Refferal Code"/>
         </div>
         <button className='button'type="submit">Login</button>
         <p>or</p>

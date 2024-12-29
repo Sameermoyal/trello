@@ -20,6 +20,6 @@ router.patch('/userTemplate',auth,userController.uploadTemplateFile)
 router.patch('/deadline',auth,userController.reminderDeadline)
 
 router.get('/getTemplateImage',auth,userController.getTemplateFile)
-
+router.post('/joinNewMember',auth,userController.addMember)
 module.exports =router;
 
