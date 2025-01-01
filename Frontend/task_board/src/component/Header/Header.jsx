@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./Header.css";
 import { EmailContext } from '../ContextApi/UserEmailProvider';
@@ -16,7 +16,7 @@ import f4 from "../../assets/f4.jpg"
 import axios from 'axios'
 import { templateContext } from '../ContextApi/TemplateProvider';
 
-function Header({ userLogin, expireDays }) {
+function Header({expireDays }) {
 
   const [showCard, setShowCard] = useState(false)
   const { userEmail ,userName} = useContext(EmailContext)
@@ -25,6 +25,8 @@ function Header({ userLogin, expireDays }) {
   const [timer, setTimer] = useState()
   const [templateDropDown, setTemplateDropDown] = useState(false)
   const {toggleTemplate} =useContext(templateContext)
+
+
   const toggleCard = () => {
     setShowCard(prev => !prev)
   }
@@ -37,7 +39,7 @@ function Header({ userLogin, expireDays }) {
 
   const userStatus = () => {
     localStorage.removeItem('token');
-    userLogin(false);
+    navigate('/login')
   };
 
   const handleResetPassword = () => {

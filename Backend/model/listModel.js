@@ -16,12 +16,11 @@ const listSchema =mongoose.Schema({
         default:'pink'
     },
    deadline:{
-    type:Array,
-    default: [
+    type:[
         {
             startDate:{
                type:Date,
-               default:Date.now,
+               required:false,
             },
             endDate:{
                type:Date,
@@ -43,6 +42,8 @@ const listSchema =mongoose.Schema({
        
           }
        ],
+    required:false,
+    default: []
 }
    ,
   

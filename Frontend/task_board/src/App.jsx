@@ -1,37 +1,26 @@
 import React from 'react'
-import Home from './component/Home/Home'
-import Login from './component/Login/Login'
-import Signup from './component/Signup/Signup'
-import { useState } from 'react'
-import { Route,Routes } from 'react-router-dom'
+import Home from '../src/component/Home/Home'
+import Login from '../src/component/Login/Login'
+import Signup from '../src/component/Signup/Signup'
+import { Route,Routes ,Navigate} from 'react-router-dom'
 import './App.css'
-import Authentication from "./component/ProtectedRoute/Authentication"
+
 
 function App() {
-  const [logedin,setLogedin]=useState(false)
+  const isAuth=()=>{
+    return localStorage.getItem('token') ? "true" : "false";
+  }
 
- const userLogin =(arg)=>{
-  setLogedin(arg)
+ const ProtectedRoute=({children})=>{
+  return  isAuth() === "true" ? children  : <Navigate to='/login' />
  }
-  
-  
-if(! logedin){
-  
-  return <div>
-    <Routes>
-      <Route path='/' element={<Login  setLogedin={setLogedin} />} />
-      <Route path='/signup' element={<Signup userLogin={userLogin}/>}/>
-    </Routes>
-    </div>
-  
-} 
-
   return (
    <> <div className='app'>
     
     <Routes>
-    <Route path='/login' element={<Login  setLogedin={setLogedin} />} />
-      <Route path='/*' element={  <Authentication> <Home userLogin ={userLogin}/></Authentication>} />
+    <Route path='/login' element={<Login/>} />
+    <Route path='/signup' element={<Signup/>}/>
+    <Route path="/*" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
     </Routes>
 
     </div> </>

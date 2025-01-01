@@ -14,8 +14,9 @@ import Dashboard from '../Dashboard/Dashboard';
 import Calenders from '../Calender/Calenders';
 import Map from '../Map/Map';
 import { templateContext } from '../ContextApi/TemplateProvider';
+import Signup from "../Signup/Signup"
 
-function Home({ userLogin }) {
+function Home() {
   const [expireDays, setExpireDays] = useState(true);
   const location = useLocation(); 
   const {templateUrl}=useContext(templateContext)
@@ -29,7 +30,7 @@ function Home({ userLogin }) {
     
       {!isLoginOrPaymentPlan && (
         <>
-          <Header userLogin={userLogin} expireDays={expireDays} />
+          <Header expireDays={expireDays}/>
           <Sidebar />
           <Navbar/>
         </>
@@ -37,7 +38,7 @@ function Home({ userLogin }) {
       
       <Routes>
         <Route index element={<Board setExpireDays={setExpireDays} />} />
-        <Route path="/login" element={<Login />} />
+      
         <Route path="/create" element={<Create />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/paymentplan" element={<PaymentPlan />} />

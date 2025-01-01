@@ -3,6 +3,7 @@ import './Table.css'
 import { SidebarContext } from '../ContextApi/SidebarProvider'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment'
 
 function Table() {
   const [data, setData] = useState([]);
@@ -76,9 +77,9 @@ function Table() {
                     <div className='table-data'>
                     <h4 key={itemIndex}>{cardItem}</h4>
                     <div><h4>{item.taskId?.title}</h4></div>
-                    <div><h4>. </h4></div>
+                    <div><div style={{height:"20px",width:"50px" ,backgroundColor:`${item.listColor}`,borderRadius:"4px"}}></div></div>
                     <div><h4>...</h4></div>
-                    <div><h4>.....</h4></div>
+                    <div>{item.deadline.length>0 ? item.deadline.map((i)=>{const r=i.endDate;return itemIndex==i.index ?  moment(r).format("DD-MM-YYYY"):null}) :null }</div>
                   </div>))}
                   
                   

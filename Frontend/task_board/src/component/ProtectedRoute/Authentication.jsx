@@ -8,7 +8,6 @@ function Authentication({children}) {
   return <Navigate to="/login" />
 }
 
-  
   return children  ;
 }
 

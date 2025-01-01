@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link ,useNavigate} from "react-router-dom";
 
 
-function Login({setLogedin}) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const[referralIdCode,setReferralIdCode]=useState("")
@@ -16,7 +16,7 @@ function Login({setLogedin}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setError("Both ID and Password are required.");
+      setError("Both Email and Password are required.");
       return;
     }
     setError("");
@@ -26,8 +26,7 @@ function Login({setLogedin}) {
       console.log('userStatus>>>>>>',userStatus.data.token)
       const token=userStatus.data.token;
       localStorage.setItem('token',token) 
-      setLogedin(pre=>!pre)
-      navigate('/')
+      navigate('/');
     } catch (error) {
         console.log("Error logging in:", error);
         setError("Login failed. Please check your credentials.");
@@ -56,7 +55,7 @@ function Login({setLogedin}) {
         </div>
         <button className='button'type="submit">Login</button>
         <p>or</p>
-       <Link to='signup'><button className='button'>Sign Up</button></Link>
+       <Link to='/signup'><button className='button'>Sign Up</button></Link>
       </form>
     </div>
   );

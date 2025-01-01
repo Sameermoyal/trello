@@ -4,12 +4,12 @@ import './DateReminder.css'
 import moment from 'moment';
 import axios from 'axios'
 
-function DateReminder({ setDateCard ,listItem,descItem}) {
+function DateReminder({ setData,setDateCard ,listItem,descItem}) {
     const [starDate,setStartDate]=useState(null);
     const [endDate,setEndDate]=useState(null);
     const [endTime,setEndTime]=useState(null);
     const [reminder,setReminder]=useState(null);
-    
+    const[radioDropDown,showRadioDropDown]=useState(false);
   async function setReminderData(e) {
     try {
       console.log("endtime >>" ,endTime)
@@ -17,7 +17,7 @@ function DateReminder({ setDateCard ,listItem,descItem}) {
       console.log("endtime >>" ,typeof(reminder))
       
       console.log("endtime >>" ,typeof(endDate))
-
+      console.log("reminder>>>>",reminder)
       console.log(typeof(endDate))
       e.preventDefault();
       console.log("form submitted")
@@ -30,8 +30,8 @@ function DateReminder({ setDateCard ,listItem,descItem}) {
           }
         });
 
-
-     
+    setDateCard(false);
+   
 
     } catch (error) {
       console.error(error);
@@ -61,28 +61,29 @@ function DateReminder({ setDateCard ,listItem,descItem}) {
           <input type="time" name="" id="" onChange={(e)=>setEndTime(e.target.value)} />
          </div>
          
-          <div class="dropdown">
+          <div class="dropdown" >
             <div>
-              <button>Set due date reminder</button>
-              <div class="dropdown-content" >
+              <button type='button' onClick={()=>showRadioDropDown(pre=>!pre)}>Set due date reminder</button>
+              <br />
+             {radioDropDown &&  <div class="dropdown-content"  >
                
-                <label>
-                  <input type="radio" name="dropdown" value="5 minutes before" onChange={(e)=>setReminder(e.target.value)} />
-                  5 Minute before
-                </label>
-                <label>
-                  <input type="radio" name="dropdown" value="1 hour before" onChange={(e)=>setReminder(e.target.value)} />
-                  1 Hour Before
-                </label>
-                <label>
-                  <input type="radio" name="dropdown" value="1 day before"  onChange={(e)=>setReminder(e.target.value)}/>
-                  1 Day Before
-                </label>
-                <label>
-                  <input type="radio" name="dropdown" value="2 day before"  onChange={(e)=>setReminder(e.target.value)}/>
-                  2 Day Before
-                </label>
-              </div>
+               <label>
+                 <input type="radio" name="dropdown" value="5 minutes before" onChange={(e)=>setReminder(e.target.value)} />
+                 5 Minute before
+               </label>
+               <label>
+                 <input type="radio" name="dropdown" value="1 hour before" onChange={(e)=>setReminder(e.target.value)} />
+                 1 Hour Before
+               </label>
+               <label>
+                 <input type="radio" name="dropdown" value="1 day before"  onChange={(e)=>setReminder(e.target.value)}/>
+                 1 Day Before
+               </label>
+               <label>
+                 <input type="radio" name="dropdown" value="2 day before"  onChange={(e)=>setReminder(e.target.value)}/>
+                 2 Day Before
+               </label>
+             </div>}
             </div>
           </div>
 

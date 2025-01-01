@@ -3,7 +3,7 @@ import './List.css';
 import axios from 'axios';
 import moment from 'moment';
 import { RxCross2 } from "react-icons/rx";
-import List_card from './List_Card/List_card';
+
 import DateReminder from './DateTimer/DateReminder';
 
 
@@ -11,12 +11,12 @@ function List({ descItem, description, listItem, setData, data }) {
   const [dropDoen, setDropDown] = useState(false);
   const [file, setFile] = useState(null);
   const [endingTime, setEndingTime] = useState(null)
-  const [countDown, setCountdown] = useState(false);
+  const [countDown, setCountdown] = useState({});
   const deadlineChange = (e) => { setEndingTime(e.target.value) }
   const [taskId, setTaskId] = useState(false);
   const [dateCard, setDateCard] = useState(false)
   const [attachCard, setAttachCard] = useState(false)
- const [index,setIndex]=useState(false);
+
 
 
   async function setDedline(e) {
@@ -44,7 +44,7 @@ function List({ descItem, description, listItem, setData, data }) {
   useEffect(() => {
     const interval = setInterval(() => {
     
-  
+      const updatedCountdowns = { ...countDown };
        if (listItem.deadline) {
         
         const reminderArr=listItem.deadline.map((i)=>i)
@@ -55,23 +55,21 @@ function List({ descItem, description, listItem, setData, data }) {
           const startDateMoment =moment(item.startDate)
           const duration = moment.duration(endTimeMoment.diff(now));
   
-          if (duration.asDays() < 1) {
+          if (duration.asDays() >0) {
               
-            setCountdown(
-              `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`
-            );
-  
-            setIndex(item.index)
+            updatedCountdowns[item.index] =  `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`
+          
           } else {
-            setCountdown('');
+            updatedCountdowns[item.index] = 'overdue';
           }
-        })
+        });
+        setCountdown(updatedCountdowns);
         
       }
     }, 1000);
 
      return () => clearInterval(interval);
-  }, [listItem.deadline]);
+  }, [listItem.deadline,countDown]);
 
 
 
@@ -142,10 +140,10 @@ function List({ descItem, description, listItem, setData, data }) {
   return (
     <div onClick={() => setDropDown(!dropDoen)} key={descItem} draggable onDragStart={(event) => handleDragStart(event, { listId: listItem._id, descItem, taskId: listItem.taskId._id, })}
       className="list-detail"
-      style={{ backgroundColor: listItem.listColor ,margin:"20px" }}
+      style={{ backgroundColor: listItem.listColor ,margin:"20px" ,height:"auto",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}
     >
       <h5>{description} </h5>
-      <div>{index===descItem && <span style={{ color: 'green', backgroundColor:"yellow", margin: '20px' }}>{countDown}</span>}</div>
+      <div>{countDown[descItem] && <div style={{ color: 'green', backgroundColor:"yellow", margin: '20px' ,width:"200px",margin:"0px"}}>   {countDown[descItem]}</div>}</div>
 
 
       {dropDoen && <div className='outer-list-card' onClick={(e) => e.stopPropagation()}>
@@ -181,7 +179,7 @@ function List({ descItem, description, listItem, setData, data }) {
                 i.imgPosition === descItem ? (<a href={i.url} download style={{ pedding: '2px' }}>{i.name}</a>) : null)
               }</div>
               </div>}
-              {dateCard && <DateReminder setDateCard={setDateCard} listItem={listItem} descItem={descItem}/>}
+              {dateCard && <DateReminder setData={setData} setDateCard={setDateCard} listItem={listItem} descItem={descItem}/>}
             </div>
 
         </div>

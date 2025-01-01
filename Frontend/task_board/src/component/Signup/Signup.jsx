@@ -3,7 +3,7 @@ import "./Signup.css";
 import axios from 'axios';
 import { Link ,useNavigate} from 'react-router-dom';
 
-function Signup({userLogin}) {
+function Signup() {
   const [email, setEmail] = useState("");
   const[userName,setUserName]=useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +30,7 @@ function Signup({userLogin}) {
     try {
       console.log("email>>>>",email)
       const userStatus = await axios.post(`${api}/signup`, { email, password ,userName,referralIdCode})
-      userLogin(true); 
+     
       navigate('/');
     } catch (error) {
         console.log("Error logging in:", error);
