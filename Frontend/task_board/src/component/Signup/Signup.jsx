@@ -31,7 +31,7 @@ function Signup() {
       console.log("email>>>>",email)
       const userStatus = await axios.post(`${api}/signup`, { email, password ,userName,referralIdCode})
      
-      navigate('/');
+      navigate('/login');
     } catch (error) {
         console.log("Error logging in:", error);
         setError("Signup failed. Please check your credentials.");

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
+import moment from 'moment';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -49,15 +50,54 @@ function Dashboard() {
 const title = resData.map(i => i.taskId?.title || "Untitled Task");
 
 const taskValue=resData.map(i=>i.descriptionList.length)
+
+const taskLength=taskValue.reduce((acc,i)=>acc+i,0)
+
 const  taskColor=resData.map(i=>i.listColor)
-   
-console.log("taskValue",taskValue)
+const  deadLineData=resData.map(i=>{return  i.deadline.length >0  ?  i.deadline :  null })  
+
+const deadLineSplit= deadLineData.flat(2)
+console.log("deadLineFlat>>",deadLineSplit)
 
 
-const generateColors = (length) =>
-  Array.from({ length }, () =>
-    `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`
-  );
+const dueSoon = deadLineSplit.map((i) => {
+  if (!i || !i.endTime) {
+    return null; 
+  }
+  const endTimeMoment = moment(i.endTime);
+  if (!endTimeMoment.isValid()) {
+    return null; 
+  }
+  const now = moment();
+  const duration = moment.duration(endTimeMoment.diff(now));
+  return    duration >0 ? (duration.asDays() < 1 ? 1 : null) :null;
+  
+});
+
+const dueSoonLength=dueSoon.reduce((acc, x) => acc + x, 0);
+console.log("dueSoonLength",dueSoonLength)
+
+const  overDue = deadLineSplit.map((i) => {
+  if (!i || !i.endTime) {
+    return null; 
+  }
+  const endTimeMoment = moment(i.endTime);
+  if (!endTimeMoment.isValid()) {
+    return null; 
+  }
+  const now = moment();
+  const duration = moment.duration(endTimeMoment.diff(now));
+  return    duration <0 ? (duration.asDays() < 1 ? 1 : 0) :0;
+  
+});
+
+const overdueLength=overDue.reduce((acc, x) => acc + x, 0);
+
+
+  console.log("overdueLength",overdueLength)    
+         
+          
+const NoDateDueLength=Math.abs(taskLength-(Math.abs(overdueLength+dueSoonLength)))
 
 
 
@@ -75,15 +115,48 @@ const barData = {
 
 
 const barOptions = {
+  responsive: false, 
+  maintainAspectRatio: false,
   scales: {
+    x: {
+      ticks: {
+        color: 'White', 
+      },
+      title: {
+        display: true,
+        text: 'Task Titles',
+        color: 'white', 
+        font: {
+          size: 14, 
+        },
+      },
+    },
     y: {
       beginAtZero: true,
       ticks: {
-        stepSize: 1, 
+        stepSize: 1,
+        color: 'white', 
+      },
+      
+      title: {
+        display: true,
+        text: 'Task Count',
+        color: 'white', 
+        font: {
+          size: 14, 
+        },
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        color: 'purple', 
       },
     },
   },
 };
+
 
 const doughData = {
   labels: [
@@ -93,7 +166,7 @@ const doughData = {
   ],
   datasets: [{
     label: 'My First Dataset',
-    data: [300, 50, 100],
+    data: [NoDateDueLength, dueSoonLength, overdueLength ],
     backgroundColor: [
       'rgb(255, 99, 132)',
       'rgb(54, 162, 235)',
@@ -103,12 +176,16 @@ const doughData = {
   }]
 };
 
+const pieOption={
+  responsive: false, 
+  maintainAspectRatio: false,
+}
   return (
     <div>
         {loading ? <p>Loading...</p> : (
       <div style={{ left: expand ? '200px' : '20px' }} className="dashboard">
-       <div className='bar-chart'> <Bar data={barData} options={barOptions}  className='bar-graf' /></div>
-       <div className='pie-chart'> <Doughnut data={doughData} /></div>
+       <div className='bar-chart'> <Bar data={barData} options={barOptions}  className='bar-graf'  height={500} width={400}/></div>
+       <div className='pie-chart'> <Doughnut data={doughData}  options={pieOption} height={500} width={400}/></div>
       </div>
     )}
         

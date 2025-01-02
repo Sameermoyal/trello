@@ -21,5 +21,6 @@ router.patch('/deadline',auth,userController.reminderDeadline)
 
 router.get('/getTemplateImage',auth,userController.getTemplateFile)
 router.post('/joinNewMember',auth,userController.addMember)
+router.get('/getNewMember',auth,userController.getMember)
 module.exports =router;
 

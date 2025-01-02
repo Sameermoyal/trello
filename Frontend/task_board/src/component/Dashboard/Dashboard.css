@@ -11,13 +11,15 @@
 }
 
 .bar-chart{
-    width: 40%;
-    height: 400px;
+    width: 500px;
+ 
     border: 2px solid;
     
 }
 
 .pie-chart{
-    width: 40%;
+    width: 500px;
+    border: 2px solid;
 
 }
+

@@ -490,6 +490,24 @@ exports.addMember=async(req,res)=>{
  }
 
 }
+exports.getMember=async(req,res)=>{
+
+ try{
+  const _id=req.user.id;
+  const user =await userModel.findById(_id);
+   const name=user.userName
+   const newMembers=await userModel.find({referralId: user._id})
+   
+ const memberName=  newMembers.map(i=>i.userName)
+
+
+  
+  res.status(200).json({message:"getMember call",memberName,adminName:name})
+ }catch(error){
+  res.status(500).json({message:"error to get new member",error:error.message})
+ }
+
+}
 
 
 

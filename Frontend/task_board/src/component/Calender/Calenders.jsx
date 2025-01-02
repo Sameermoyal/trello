@@ -1,345 +1,100 @@
-import React, { useContext ,useState} from 'react'
-import './Calender.css'
-import Sidebar from '../Sidebar/Sidebar'
-import { SidebarContext } from '../ContextApi/SidebarProvider'
-import { Add, Person } from '@mui/icons-material'
-import {
-  Avatar,
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  TextField,
-} from '@mui/material'
-import moment from 'moment'
-import { EventCalendar } from 'react-mui-event-calendar'
-
-const emails = ['username@gmail.com', 'user02@gmail.com']
-
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import './Calender.css';
+import Sidebar from '../Sidebar/Sidebar';
+import { SidebarContext } from '../ContextApi/SidebarProvider';
+import axios from 'axios';
+import { EventCalendar } from 'react-mui-event-calendar';
+import moment from 'moment';
 
 function Calenders() {
-const{expand}=  useContext(SidebarContext)
-const data = [
-  {
-    date: new Date(),
-    title: 'First',
-    popupContent: (
-      <>
-        <List sx={{ pt: 0 }}>
-          {emails.map((email) => (
-            <ListItem button key={email}>
-              <ListItemAvatar>
-                <Avatar>
-                  <Person />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={email} />
-            </ListItem>
-          ))}
+  const { expand } = useContext(SidebarContext);
+  const [resData, setData] = useState([]); 
+  const [dataSource, setDataSource] = useState([]); 
 
-          <ListItem autoFocus button>
-            <ListItemAvatar>
-              <Avatar>
-                <Add />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary='Add account' />
-          </ListItem>
-        </List>
-      </>
-    ),
-    id: '1',
-  },
-  {
-    date: moment().subtract(2, 'days'),
-    title: "Use Google's location service?",
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Disagree</Button>
-          <Button>Agree</Button>
-        </DialogActions>
-      </>
-    ),
-    id: '2',
-  },
-  {
-    date: moment().subtract(3, 'days'),
-    title: 'Third',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address
-            here. We will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin='dense'
-            id='name'
-            label='Email Address'
-            type='email'
-            fullWidth
-            variant='standard'
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#000',
-    id: '3',
-  },
-  {
-    date: new Date(),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: moment().subtract(10, 'days'),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: moment().subtract(30, 'days'),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    id: '4',
-  },
-  {
-    date: new Date(),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: moment().add(5, 'days'),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: new Date(),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: moment().subtract(2, 'days'),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-  {
-    date: moment().add(30, 'days'),
-    title: 'Fourth',
-    popupContent: (
-      <>
-        <DialogContent>
-          <DialogContentText>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join('\n')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
-        </DialogActions>
-      </>
-    ),
-    color: '#ffe100',
-    id: '4',
-  },
-]
+  const api = 'http://localhost:3000';
+  
+  const prevDeadLineSplitRef = useRef(); 
 
-const [dataSource, setDataSource] = useState(data)
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`${api}/getOne`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      setData(res.data.listPopulate); 
+    } catch (error) {
+      console.log('Error fetching data', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); 
+
+  const deadLineData = resData.filter((i) => i.deadline.length > 0);
+
+  const list = deadLineData.map((i) => {
+    const filteredDescriptionsWithEndTime = i.descriptionList
+      .map((descriptionItem, index) => {
+        const matchingDeadline = i.deadline.find(
+          (deadlineItem) => deadlineItem.index === index
+        );
+
+        if (matchingDeadline) {
+          return {
+            description: descriptionItem,
+            endTime: matchingDeadline.endDate,
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+
+    return filteredDescriptionsWithEndTime;
+  });
+
+  const deadLineSplit = list.flat(2);
+  
+  
+  useEffect(() => {
+    if (deadLineSplit.length > 0 && JSON.stringify(deadLineSplit) !== JSON.stringify(prevDeadLineSplitRef.current)) {
+      const updatedDataSource = deadLineSplit.map((i) => ({
+        title: i.description,
+        date: moment(i.endTime).toDate(),
+      }));
+
+      setDataSource(updatedDataSource);
+      prevDeadLineSplitRef.current = deadLineSplit; 
+    }
+  }, [deadLineSplit]); 
+  if (dataSource.length === 0) {
+    return <div>Loading...</div>; 
+  }
 
   return (
     <div>
-      <div className='calender' style={{left:expand?'200px':'20px'}}>
-      
-    <div
-      style={{
-        width: '100%',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        margin: '3em 0',
-      }}
-    >
-      <EventCalendar
-        dataSource={dataSource}
-        pallet={{ primary: '#32d3a2', secondary: '#2343d3' }}
-        onDataChange={(newEvents) => setDataSource(newEvents)}
-      />
-    </div>
-  
+      <div className="calender" style={{ left: expand ? '200px' : '20px' }}>
+        <div
+          style={{
+            width: '100%',
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: '3em 0',
+          }}
+        >
+          <EventCalendar
+            dataSource={dataSource} 
+            pallet={{ primary: '#32d3a2', secondary: '#2343d3' }}
+            onDataChange={(newEvents) => setDataSource(newEvents)} 
+          />
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Calenders
-
-
-
+export default Calenders;

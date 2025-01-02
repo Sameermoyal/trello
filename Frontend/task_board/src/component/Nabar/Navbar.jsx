@@ -22,7 +22,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const options = ["board", "table", "dashboard", "calender", "map"];
-
+  const[newMember,setNewMember]=useState([])
   const [navCheckBoxData, setNavCheckBoxData] = useState([]);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -75,8 +75,24 @@ function Navbar() {
   useEffect(() => {
 
     getNavbarData();
+    getNewMember();
   }, [])
 
+  const getNewMember = async () => {
+    try {
+     
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${api}/getNewMember `, {
+        headers: { authorization: `Bearer ${token}` }
+      });
+
+      setNewMember(response.data.memberName)
+   console.log("response.data.memberName",response.data.memberName)
+    } catch (error) {
+      console.log("Error get navbar newMembar:", error);
+
+    }
+  } 
   'inside-link-tag'
 
 const joinNewMember=()=>{
@@ -157,7 +173,9 @@ const joinNewMember=()=>{
                {shareButton && <div className='share-dropDown'>
                   <div className='share-dropDown-top'><h5>Share Board</h5><RxCross2 onClick={()=>setShareButton(pre=>!pre)}/> </div>
                   <div className='share-email'><input type="email" placeholder='Email address' onChange={(e)=>setAddEmail(e.target.value)} /> <button onClick={joinNewMember} >Share</button> </div>
-                  <div>Board Members</div>
+                  <div><h5>Board Members</h5>
+                     {newMember.map((i,ind)=><h6 key={ind}>{i}</h6>)}
+                  </div>
                 </div>}
                </div>
                
